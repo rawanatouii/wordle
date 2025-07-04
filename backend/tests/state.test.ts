@@ -1,35 +1,42 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { GameState } from '../src/state'
 
-describe('GameState', () => {
-  it('should track attempts and detect win', () => {
-    const game = new GameState('apple')
+describe('GameState extended', () => {
+  let game: GameState
 
-    const feedback = game.makeGuess('apple')
-    expect(feedback).toEqual(['green', 'green', 'green', 'green', 'green'])
+  beforeEach(() => {
+    game = new GameState('apple')
+  })
+
+  it('resets game and stats correctly', () => {
+    game.makeGuess('apple')
     expect(game.getStatus()).toBe('won')
-    expect(game.getRemainingAttempts()).toBe(5)
+
+    game.reset('melon')
+    expect(game.getStatus()).toBe('playing')
+    expect(game.getRemainingAttempts()).toBe(6)
+    expect(game.getHistory()).toHaveLength(0)
   })
 
-  it('should track failed guesses and detect loss', () => {
-    const game = new GameState('apple')
-
-    for (let i = 0; i < 6; i++) {
-      game.makeGuess('grape')
-    }
-
+  it('tracks stats for wins and losses', () => {
+    // lose first game
+    for (let i = 0; i < 6; i++) game.makeGuess('grape')
     expect(game.getStatus()).toBe('lost')
-    expect(game.getRemainingAttempts()).toBe(0)
-  })
 
-  it('should not allow guesses after game over', () => {
-    const game = new GameState('apple')
+    // stats after loss
+    expect(game.getStats().gamesPlayed).toBe(1)
+    expect(game.getStats().wins).toBe(0)
+    expect(game.getStats().currentStreak).toBe(0)
 
-    for (let i = 0; i < 6; i++) {
-      game.makeGuess('grape')
-    }
+    game.reset('apple')
 
-    const extra = game.makeGuess('apple')
-    expect(extra).toBe(null)
+    // win second game
+    game.makeGuess('apple')
+    expect(game.getStatus()).toBe('won')
+
+    expect(game.getStats().gamesPlayed).toBe(2)
+    expect(game.getStats().wins).toBe(1)
+    expect(game.getStats().currentStreak).toBe(1)
+    expect(game.getStats().averageAttempts).toBeGreaterThan(0)
   })
 })

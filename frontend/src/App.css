@@ -1,42 +1,123 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+.wordle-container {
+  max-width: 400px;
+  margin: 30px auto;
+  font-family: 'Arial', sans-serif;
   text-align: center;
+  padding: 0 10px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+h1 {
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #222;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+form input {
+  font-size: 2rem;
+  width: 150px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  padding: 10px;
+  margin-right: 10px;
+  border: 2px solid #888;
+  border-radius: 4px;
+  outline-offset: 2px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+form input:focus {
+  border-color: #6aaa64;
+  outline: none;
 }
 
-.card {
-  padding: 2em;
+form button {
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #6aaa64;
+  border: none;
+  color: white;
+  font-weight: 700;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
-.read-the-docs {
-  color: #888;
+form button:hover:not(:disabled) {
+  background-color: #5a9954;
+}
+
+form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #d93025;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.results {
+  margin-top: 20px;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.tile {
+  width: 50px;
+  height: 50px;
+  margin: 0 3px;
+  line-height: 50px;
+  font-weight: bold;
+  font-size: 2rem;
+  color: white;
+  text-transform: uppercase;
+  border-radius: 5px;
+  user-select: none;
+  box-shadow: 0 0 3px rgba(0,0,0,0.2);
+}
+
+.tile.green {
+  background-color: #6aaa64;
+  border: 2px solid #538d4e;
+}
+
+.tile.yellow {
+  background-color: #c9b458;
+  border: 2px solid #b59f3b;
+  color: black;
+}
+
+.tile.gray {
+  background-color: #787c7e;
+  border: 2px solid #565758;
+}
+
+.game-over {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.game-over p {
+  margin-bottom: 15px;
+}
+
+.game-over button {
+  padding: 10px 25px;
+  font-weight: 700;
+  background-color: #6aaa64;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.game-over button:hover {
+  background-color: #5a9954;
 }

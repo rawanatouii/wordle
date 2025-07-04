@@ -10,6 +10,11 @@ export const validWords = [
   'eerie',
   'banal',
   'blush',
-  'crane'
+  'crane',
+  'mopii',
+  'phone',
+  'amour',
+  'simon',
+  'boomm'
   // Add more as needed
 ];

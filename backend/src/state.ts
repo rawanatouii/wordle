@@ -1,4 +1,3 @@
-
 import { checkGuess } from './game'
 
 type Feedback = 'green' | 'yellow' | 'gray'
@@ -15,6 +14,12 @@ export class GameState {
   private history: GuessResult[] = []
   private status: 'playing' | 'won' | 'lost' = 'playing'
 
+  
+  private wins: number = 0
+  private gamesPlayed: number = 0
+  private totalAttempts: number = 0
+  private currentStreak: number = 0
+
   constructor(targetWord: string) {
     this.targetWord = targetWord
   }
@@ -28,11 +33,25 @@ export class GameState {
 
     if (word === this.targetWord) {
       this.status = 'won'
+      this.updateStats(true)
     } else if (this.attempts >= this.maxAttempts) {
       this.status = 'lost'
+      this.updateStats(false)
     }
 
     return result
+  }
+
+  private updateStats(won: boolean) {
+    this.gamesPlayed++
+    if (won) {
+      this.wins++
+      this.currentStreak++
+      this.totalAttempts += this.attempts
+    } else {
+      this.currentStreak = 0
+      this.totalAttempts += this.maxAttempts
+    }
   }
 
   getStatus() {
@@ -45,5 +64,21 @@ export class GameState {
 
   getRemainingAttempts() {
     return this.maxAttempts - this.attempts
+  }
+
+  getStats() {
+    return {
+      wins: this.wins,
+      gamesPlayed: this.gamesPlayed,
+      currentStreak: this.currentStreak,
+      averageAttempts: this.wins > 0 ? this.totalAttempts / this.wins : 0,
+    }
+  }
+
+  reset(newTarget: string) {
+    this.targetWord = newTarget
+    this.attempts = 0
+    this.history = []
+    this.status = 'playing'
   }
 }

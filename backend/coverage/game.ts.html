@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>26/26</span>
+                <span class='fraction'>24/24</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>26/26</span>
+                <span class='fraction'>24/24</span>
             </div>
         
             
@@ -101,68 +101,68 @@
 <a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">90x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">90x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">90x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">65x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">90x</span>
-<span class="cline-any cline-yes">223x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">223x</span>
-<span class="cline-any cline-yes">64x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export type LetterFeedback = 'green' | 'yellow' | 'gray'
 &nbsp;
 export function checkGuess(guess: string, target: string): LetterFeedback[] {
-  const feedback: LetterFeedback[] = Array(5).fill('gray')
+  const feedback: LetterFeedback[] = Array(guess.length).fill('gray')
   const targetLetters = target.split('')
   const guessLetters = guess.split('')
 &nbsp;
-  const usedTarget = Array(5).fill(false)
-  const usedGuess = Array(5).fill(false)
+  // Keep track of letters matched for green and yellow
+  const targetLetterCount: Record&lt;string, number&gt; = {}
+&nbsp;
+  // Count frequency of letters in target word
+  for (const letter of targetLetters) {
+    targetLetterCount[letter] = (targetLetterCount[letter] || 0) + 1
+  }
 &nbsp;
   // Step 1: Green pass (exact matches)
-  for (let i = 0; i &lt; 5; i++) {
+  for (let i = 0; i &lt; guessLetters.length; i++) {
     if (guessLetters[i] === targetLetters[i]) {
       feedback[i] = 'green'
-      usedTarget[i] = true
-      usedGuess[i] = true
+      targetLetterCount[guessLetters[i]]!--
     }
   }
 &nbsp;
-  // Step 2: Yellow pass (wrong position, right letter)
-  for (let i = 0; i &lt; 5; i++) {
-    if (usedGuess[i]) continue // already green
-&nbsp;
-    for (let j = 0; j &lt; 5; j++) {
-      if (!usedTarget[j] &amp;&amp; guessLetters[i] === targetLetters[j]) {
-        feedback[i] = 'yellow'
-        usedTarget[j] = true
-        usedGuess[i] = true
-        break
-      }
+  // Step 2: Yellow pass (wrong position, letter exists and unused)
+  for (let i = 0; i &lt; guessLetters.length; i++) {
+    if (feedback[i] === 'green') continue // skip greens
+    const letter = guessLetters[i]
+    if (targetLetterCount[letter] &amp;&amp; targetLetterCount[letter] &gt; 0) {
+      feedback[i] = 'yellow'
+      targetLetterCount[letter]!--
     }
   }
 &nbsp;
@@ -175,7 +175,7 @@ export function checkGuess(guess: string, target: string): LetterFeedback[] {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-27T12:25:47.739Z
+                at 2025-07-04T09:45:01.897Z
             </div>
         <script src="prettify.js"></script>
         <script>

@@ -22,13 +22,13 @@ describe('checkGuess()', () => {
 
   it('handles duplicate letters correctly (1 in target)', () => {
     expect(checkGuess('allay', 'grape')).toEqual([
-      'yellow', 'gray', 'gray', 'yellow', 'gray'
+      'yellow', 'gray', 'gray', 'gray', 'gray'
     ])
   })
 
   it('handles duplicate letters correctly (2 in target)', () => {
     expect(checkGuess('eerie', 'rebel')).toEqual([
-      'yellow', 'green', 'yellow', 'gray', 'yellow'
+      'yellow', 'green', 'yellow', 'gray', 'gray'
     ])
   })
 })
